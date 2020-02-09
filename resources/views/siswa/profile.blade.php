@@ -5,6 +5,17 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
+					@if(session('sukses'))
+						<div class="alert alert-success" role="alert">
+						  {{session('sukses')}}
+						</div>
+					@endif
+
+					@if(session('error'))
+						<div class="alert alert-danger" role="alert">
+						  {{session('error')}}
+						</div>
+					@endif					
 					<div class="panel panel-profile">
 						<div class="clearfix">
 							<!-- LEFT COLUMN -->
@@ -58,7 +69,7 @@
 							<!-- END LEFT COLUMN -->
 							<!-- RIGHT COLUMN -->
 							<div class="profile-right">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah Nilai</button>
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">	Nilai</button>
 							</div>							
 							<div class="profile-right">
 									<div class="panel">
@@ -110,16 +121,27 @@
 		        <div class="modal-body">
 					<form action="/siswa/{{$siswa->id}}/addnilai" method="POST" enctype="multipart/form-data">
 						{{csrf_field()}}
+						<div class="form-group">
+						    <label for="mapel">Mata Pelajaran</label>
+							    <select class="form-control" id="exampleFormControlSelect1" name="mapel">
+							    	@foreach($matapelajaran as $mp)
+							    		<option value="{{$mp->id}}">{{$mp->nama}}</option>
+							    	@endforeach
+							    </select>
+						 </div>
 							<div class="form-group">
 								<label for="exampleInputEmail1">Nilai</label>
 								<input type="text" name="nilai" class="form-control" id="exampleInputNama1" aria-describedby="emailHelp" placeholder="Nilai" value="{{old('nilai')}}">
-							</div>		      			
-		      	    </form>
-		        </div>
-		        <div class="modal-footer">
-		          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		          <button type="button" class="btn btn-primary">Save changes</button>
-		        </div>
+								@if($errors->has('nilai'))
+									<span class="help-block">{{$errors->first('nilai')}}</span>
+								@endif
+							</div>	        
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				          <button type="submit" class="btn btn-primary">Simpan</button>
+				        </div>
+		            </form>
+		        </div>	
 		      </div>
 		    </div>
 		 </div>
